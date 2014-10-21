@@ -47,7 +47,15 @@ mts.each do |mt|
           if sf.strip.length >0
             xs = sf.split('(')
             begin
-              ScraperWiki.save(unique_keys=["tag", "subfield"],data={'tag' => mt.tag,'label' => mt.label, 'uri' => mt.uri, 'subfield' => xs[0].strip, 'repeatable' => xs[1].strip.chomp(')')})
+                record = {
+                "tag" => mt.tag,
+                "label" => mt.label,
+                "uri" => mt.uri,
+                "subfield" => xs[0].strip,
+                "repeatable" => xs[1].strip.chomp(')')
+                }
+              ScraperWiki.save_sqlite(["tag", "subfield"],record)
+              
             rescue
               puts "Error: " + mt.tag.to_s + ":" + xs[0].to_s
             end
